@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/taibuharoub/rest-api-practical-application/issues"
   },
-  "homepage": "https://github.com/taibuharoub/rest-api-practical-application#readme"
+  "homepage": "https://github.com/taibuharoub/rest-api-practical-application#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
 }
