@@ -1,3 +1,5 @@
+const path = require("path");
+
 const express = require("express");
 const colors = require("colors");
 const morgan = require("morgan");
@@ -13,6 +15,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(morgan("dev"));
 app.use(express.json({ limit: "1mb" }));
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -24,6 +27,13 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/v1/feed", feedRoutes);
+
+app.use((error, req, res, next) => {
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  res.status(status).json({message: message});
+})
 
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`.yellow.bold);
