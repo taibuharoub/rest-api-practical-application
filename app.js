@@ -1,7 +1,10 @@
 const express = require("express");
 const colors = require("colors");
 const morgan = require("morgan");
+const connectDB = require("./util/db")
 require("dotenv").config();
+
+connectDB();
 
 const feedRoutes = require("./routes/feed");
 
