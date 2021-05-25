@@ -1,7 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-
 const { validationResult } = require("express-validator");
+
+const clearImage = require("../util/clearimage")
 
 const Post = require("../models/Post");
 
@@ -128,7 +127,7 @@ exports.updatePost = (req, res, next) => {
     });
 };
 
-const clearImage = filePath => {
+/* const clearImage = filePath => {
   filePath = path.join(__dirname, "..", filePath);
   fs.unlink(filePath, err => console.log(err));
-}
+} */
