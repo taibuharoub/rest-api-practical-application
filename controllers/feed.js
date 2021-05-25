@@ -84,6 +84,7 @@ exports.getPost = (req, res, next) => {
 
 exports.updatePost = (req, res, next) => {
   const postId = req.params.postId;
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed, entered data is incorrect.");
     error.statusCode = 422;
@@ -92,7 +93,8 @@ exports.updatePost = (req, res, next) => {
   const { title, content } = req.body;
   let imageUrl = req.body.image; //no new file is picked
   if (req.file) {
-    imageUrl = req.file.path; //new file picked
+    // imageUrl = req.file.path; //new file picked
+    imageUrl = req.file.path.replace("\\","/");
   }
   if (!imageUrl) {
     const error = new Error("No file picked.");
