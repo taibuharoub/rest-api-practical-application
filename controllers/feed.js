@@ -28,13 +28,19 @@ exports.createPost = (req, res, next) => {
       errors: errors.array(),
     }); */
   }
+  if (!req.file) {
+    const error = new Error("No image provided.");
+    error.statusCode = 422;
+    throw error;
+  }
+  const imageUrl = req.file.path.replace("\\" ,"/");
   const { title, content } = req.body;
   console.log(title, content);
 
   const post = new Post({
     title: title,
     content: content,
-    imageUrl: "images/book.jpg",
+    imageUrl: imageUrl,
     creator: { name: "Taibu" },
   });
   post
