@@ -27,4 +27,6 @@ router.put(
   authController.singup
 );
 
+router.post("/login", authController.login);
+
 module.exports = router;
