@@ -2,11 +2,12 @@ const express = require("express");
 const { body } = require("express-validator");
 
 const feedController = require("../controllers/feed");
+const isAuth = require("../middleware/is-auth");
 
 const router = express.Router();
 
 //GET /api/v1/feed/posts
-router.get("/posts", feedController.getPosts);
+router.get("/posts", isAuth, feedController.getPosts);
 
 //POST /api/v1/post
 router.post(
@@ -18,7 +19,7 @@ router.post(
   feedController.createPost
 );
 
-router.get("/post/:postId", feedController.getPost);
+router.get("/post/:postId", isAuth, feedController.getPost);
 router.put(
   "/post/:postId",
   [
