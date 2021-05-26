@@ -10,6 +10,7 @@ require("dotenv").config();
 connectDB();
 
 const feedRoutes = require("./routes/feed");
+const authRoutes = require("./routes/auth");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/v1/feed", feedRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
