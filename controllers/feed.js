@@ -5,7 +5,7 @@ const clearImage = require("../util/clearimage");
 const Post = require("../models/Post");
 const User = require("../models/User");
 
-exports.getPosts = (req, res, next) => {
+/* exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
   let totalItems;
@@ -30,6 +30,32 @@ exports.getPosts = (req, res, next) => {
       }
       next(err);
     });
+}; */
+
+//show asyn/await implementation
+//implement getPosts in an async/await fashion
+exports.getPosts = async (req, res, next) => {
+  const currentPage = req.query.page || 1;
+  const perPage = 2;
+  let totalItems;
+  try {
+    const totalItems = await Post.find().countDocuments();
+
+    const posts = await Post.find()
+      .skip((currentPage - 1) * perPage)
+      .limit(perPage);
+
+    res.status(200).json({
+      message: "Fetched posts successfully.",
+      posts: posts,
+      totalItems: totalItems,
+    });
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
 };
 
 exports.createPost = (req, res, next) => {

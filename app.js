@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3000;
 app.use(morgan("dev"));
 app.use(express.json({ limit: "1mb" }));
 app.use(multerUploads);
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
