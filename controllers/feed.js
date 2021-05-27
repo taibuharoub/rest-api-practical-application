@@ -131,7 +131,7 @@ exports.updatePost = (req, res, next) => {
         throw error;
       }
       //check if logged in user owns that post
-      if(post.creator.toString() !== req.userId) {
+      if (post.creator.toString() !== req.userId) {
         const error = new Error("Not authorized!");
         error.statusCode = 403;
         throw error;
@@ -165,7 +165,7 @@ exports.deletePost = (req, res, next) => {
         throw error;
       }
       //Check logged in user
-      if(post.creator.toString() !== req.userId) {
+      if (post.creator.toString() !== req.userId) {
         const error = new Error("Not authorized!");
         error.statusCode = 403;
         throw error;
@@ -174,7 +174,14 @@ exports.deletePost = (req, res, next) => {
       return Post.findByIdAndRemove(postId);
     })
     .then((result) => {
-      console.log(result);
+      return User.findById(req.userId);
+    })
+    .then((user) => {
+      //clear user post relation after deleting post
+      user.posts.pull(postId);
+      return user.save();
+    })
+    .then((result) => {
       res.status(200).json({ message: "Deleted post." });
     })
     .catch((err) => {
